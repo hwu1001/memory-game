@@ -2,6 +2,41 @@
  * Create a list that holds all of your cards
  */
 
+let gameData = {
+    moves: 0,
+    stars: 0,
+    openCards: [],
+    matchedCards: 0
+};
+
+
+$(document).ready( function() {
+    shuffleCards(cards);
+});
+
+function shuffleCards(cards) {
+    let cards = []
+    let deck = document.querySelector('.deck');
+    let iconList = deck.querySelectorAll('i');
+    // let cards = Array.from(iconList);
+    for (let node of iconList) {
+        cards.push(Array.from(node.classList));
+    }
+    shuffle(cards);
+    // https://stackoverflow.com/questions/41774889/javascript-copy-node-to-documentfragment
+    let docFrag = document.createRange().createContextualFragment(deck.outerHTML);
+    let dfNodes = docFrag.querySelectorAll('i');
+    for (let i = 0; i < cards.length; i++) {
+        dfNodes[i].className = cards[i].join(" ");
+        // Could use jQuery removeClass to remove all classes then use the loop below
+        // for (let cls of cards[i]) {
+        //     dfNodes[i].classList.add(cls);
+        // }
+    }
+    let container = document.querySelector('.container');
+    container.removeChild(deck);
+    container.appendChild(docFrag);
+}
 
 /*
  * Display the cards on the page
@@ -22,7 +57,7 @@ function shuffle(array) {
         array[randomIndex] = temporaryValue;
     }
 
-    return array;
+    // return array;
 }
 
 
@@ -36,3 +71,17 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+$(document).ready( function() {
+    $('.deck').on('click', '.card', function(event) {
+        $(this).toggleClass('open show');
+        // $(this).toggleClass('show');
+        // if (event.target.classList.contains('card')) {
+        //     event.target.classList.toggle('open');
+        //     event.target.classList.toggle('show');
+        // }
+        // else {
+        //     event.target.parentElement.classList.toggle('open');
+        //     event.target.parentElement.classList.toggle('show');
+        // }
+    });
+});
