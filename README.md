@@ -3,18 +3,19 @@
 ## Table of Contents
 
 * [Instructions](#instructions)
+* [Dependencies](#dependencies)
 * [Contributing](#contributing)
 
 ## Instructions
 
-The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
+The game is a simple memory matching card game that has a player reveal cards and try to match all pairs on the grid. To play you can download the source code and open `index.hmtl` in a web browser.
 
-To get started, open `js/app.js` and start building out the app's functionality
+## Dependencies
 
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
+The game uses [jQuery](https://jquery.com/), [Font Awesome](https://fontawesome.com/v4.7.0/) for the icons, [Google Fonts](https://fonts.google.com/), and [Animate.css](https://daneden.github.io/animate.css/) for the card animations.
 
 ## Contributing
 
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
+Not currently taking contributions.
 
 For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
