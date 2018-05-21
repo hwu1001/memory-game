@@ -1,6 +1,7 @@
 /*
  * Create a list that holds all of your cards
  */
+ 
 
 let gameData = {
     moves: 0,
@@ -17,6 +18,11 @@ let gameData = {
     moveCounterObj: null
 };
 
+/**
+ * Shuffles the DOM elements representing the game cards and
+ * replaces the old deck with the newly shuffled one.
+ * Sets gameData.gameDeckOuterHtml.
+ */
 function shuffleCards() {
     let cards = []
     let deck = document.querySelector('.deck');
@@ -41,7 +47,12 @@ function shuffleCards() {
     container.appendChild(docFrag);
 }
 
+/**
+ * Initializes the game by resetting all the variables in gameData back to their default values
+ * and shuffles the cards on the screen.
+ */
 function initialize() {
+    // Note that we do not reset DOM elements in gameData as the ones we store do not change
     gameData.moves = 0;
     gameData.stars = 3;
     gameData.openCards = [];
@@ -60,6 +71,10 @@ function initialize() {
  */
 
 // Shuffle function from http://stackoverflow.com/a/2450976
+/**
+ * Uses a Fisher-Yates shuffle on a given array.
+ * @param {Array} array 
+ */
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
 
@@ -85,6 +100,13 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+
+
+/**
+ * Event handler for a user clicking a card.
+ * Handles showing new cards, matching good and bad pairs, updates the score panel/timer, and
+ * displays the modal window if the user wins.
+ */
 function cardClick() {
     $('.deck').on('click', '.card', function() {
         // Handle timer - Game starts when the first card is clicked
@@ -93,6 +115,7 @@ function cardClick() {
             gameData.intervalId = setInterval(updateTime, 1000);
         }
         let clickedCard = $(this);
+        // If we've already clicked on this card or it's been matched then ignore click
         if (clickedCard.hasClass('match') || clickedCard.hasClass('open')) {
             return;
         }
@@ -133,6 +156,10 @@ function cardClick() {
     });
 }
 
+/**
+ * Sets up event listeners on the restart button and the play again button in the modal window,
+ * to allow users to restart the game.
+ */
 function restartGameEvent() {
     $('.score-panel').on('click', '.fa-repeat', function () {
         restartGame();
@@ -146,6 +173,9 @@ function restartGameEvent() {
     });
 }
 
+/**
+ * Handles restarting the game by resetting gameData and the UI elements.
+ */
 function restartGame() {
     clearInterval(gameData.intervalId);
     initialize();
@@ -156,10 +186,19 @@ function restartGame() {
     cardClick();
 }
 
+/**
+ * Toggles the appropriate classes on a game card to show the icon to the user
+ * @param {HTMLElement} cardObject The card the user clicked on
+ */
 function toggleSymbol(cardObject) {
     $(cardObject).toggleClass('open show animated flipInY');
 }
 
+/**
+ * Toggles the appropriate classes to animate and display a matched pair of cards
+ * @param {HTMLElement} firstCardObject The first card clicked in the pair of cards
+ * @param {HTMLElement} secondCardObject The second matching card clicked
+ */
 function addMatchedPair(firstCardObject, secondCardObject) {
     toggleSymbol(firstCardObject);
     $(firstCardObject).toggleClass('match animated bounce');
@@ -167,15 +206,27 @@ function addMatchedPair(firstCardObject, secondCardObject) {
     gameData.matchedCards += 2;
 }
 
+/**
+ * Toggles the appropriate classes to animate and dispaly a bad match pair of cards
+ * @param {HTMLElement} firstCardObject The first card clicked in the pair of cards
+ * @param {HTMLElement} secondCardObject The second card clicked
+ */
 function toggleBadMatch(firstCardObject, secondCardObject) {
     $(firstCardObject).toggleClass('open show bad-match animated shake');
     $(secondCardObject).toggleClass('open show bad-match animated shake');
 }
 
+/**
+ * Sets the start time for the game (i.e., when the player clicks the first card)
+ */
 function startGameTime() {
     gameData.gameStartTime = Date.now();
 }
 
+/**
+ * Sets the UI elements that handle the game timer
+ * Some code used from this post: https://stackoverflow.com/questions/5517597/plain-count-up-timer-in-javascript
+ */
 function updateTime() {
     if (gameData.minutesSpan === null || gameData.secondsSpan === null) {
         gameData.minutesSpan = document.getElementById('minutes');
@@ -188,6 +239,9 @@ function updateTime() {
     gameData.minutesSpan.innerHTML = padTimeString(parseInt(gameData.totalSeconds / 60));
 }
 
+/**
+ * Sets the UI elements that handle the move counter
+ */
 function updateMovesCounter() {
     if (gameData.moveCounterObj === null) {
         gameData.moveCounterObj = document.getElementsByClassName('moves')[0];
@@ -195,6 +249,9 @@ function updateMovesCounter() {
     gameData.moveCounterObj.innerHTML = gameData.moves;
 }
 
+/**
+ * Removes stars from the score panel while the player is playing the game.
+ */
 function updateStarList() {
     if (gameData.stars > 1) {
         if (gameData.moves === 24 || gameData.moves === 34) {
@@ -203,6 +260,9 @@ function updateStarList() {
     }
 }
 
+/**
+ * Removes one star icon from the score panel.
+ */
 function removeOneStar() {
     if (gameData.starListObj === null) {
         gameData.starListObj = document.getElementsByClassName('stars')[0];
@@ -211,6 +271,9 @@ function removeOneStar() {
     $(gameData.starListObj.children[gameData.stars].children[0]).toggleClass('fa-star fa-star-o');
 }
 
+/**
+ * Resets the stars on the score panel to have three full stars again.
+ */
 function resetStarList() {
     if (gameData.starListObj === null) {
         gameData.starListObj = document.getElementsByClassName('stars')[0];
@@ -220,6 +283,11 @@ function resetStarList() {
     }
 }
 
+/**
+ * Takes a time in seconds or minutes and pads it to the appropriate length for display
+ * Code used from this post: https://stackoverflow.com/questions/5517597/plain-count-up-timer-in-javascript
+ * @param {number} val 
+ */
 function padTimeString(val) {
     let valString = val + "";
     if (valString.length < 2) {
@@ -229,6 +297,9 @@ function padTimeString(val) {
     }
 }
 
+/**
+ * Handles the display of the modal window and the contents within it
+ */
 function displayWinModal() {
     clearInterval(gameData.intervalId);
                     
@@ -254,6 +325,7 @@ function displayWinModal() {
     $(modal).toggleClass('modal-hide modal-show');
 }
 
+// Initialize the game when the DOM is ready
 $(document).ready( function() {
     initialize();
     cardClick();
