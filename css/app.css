@@ -39,7 +39,7 @@ h1 {
 
 .deck {
     width: 660px;
-    min-height: 680px;
+    height: 680px;
     background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
     padding: 32px;
     border-radius: 10px;
@@ -226,4 +226,48 @@ h1 {
         stroke-dashoffset: 900;
     }
 }
+
+/* 
+ * Responsive styles for cell phone size screens
+ */
+ 
+ @media screen and (max-width: 400px) {
+     .deck {
+        max-width: 95%;
+        height: auto;
+        padding: 14px;
+    }
+    
+    .deck .card {
+        height: 80px;
+        width: 23%;
+        margin: 2px;
+    }
+ }
+
+ /* 
+ * Responsive styles for tablets and landscape screens
+ */
+
+ @media screen and (min-width: 401px) and (max-width: 799px) {
+    .deck {
+        max-width: 95%;
+        height: auto;
+        padding: 25px;
+    }
+    
+    .deck .card {
+        height: 160px;
+        width: 23%;
+        margin: 2px;
+    }   
+
+    .deck .card.show {
+        font-size: 45px;
+    }
+
+    body {
+        font-size: 1.3em;
+    }
+ }
   
