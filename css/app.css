@@ -115,3 +115,115 @@ h1 {
     float: right;
     cursor: pointer;
 }
+
+/* 
+ * Styles for Modal Pop-up
+ * Most of the modal styles taken from this guide: https://www.w3schools.com/howto/howto_css_modals.asp
+ */
+
+/* The Modal (background) */
+.modal {
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: #000000; /* Fallback color */
+    background-color: #00000066; /* Black w/ opacity */
+}
+
+.modal.modal-hide {
+    display: none; /* Hidden by default */
+}
+
+.modal.modal-show {
+    display: block;
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    text-align: center;
+}
+
+#modal-button {
+    background: #5cb85c;
+    color: #fff;
+    border-radius: 5px 5px 5px 5px;
+    cursor: pointer;
+    padding: 16px 32px;
+    font-size: 16px;
+}
+
+
+ /* 
+ * Styles for Check Mark Animation
+ * Styles come from this pen: https://codepen.io/elevaunt/pen/JYRBzJ
+ */
+
+ svg {
+    width: 100px;
+    display: block;
+    margin: 40px auto 0;
+}
+  
+.path {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 0;
+}
+
+.path.circle {
+    -webkit-animation: dash .9s ease-in-out;
+    animation: dash .9s ease-in-out;
+}
+
+.path.check {
+    stroke-dashoffset: -100;
+    -webkit-animation: dash-check .9s .35s ease-in-out forwards;
+    animation: dash-check .9s .35s ease-in-out forwards;
+}
+
+
+@-webkit-keyframes dash {
+    0% {
+        stroke-dashoffset: 1000;
+    }
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes dash {
+    0% {
+        stroke-dashoffset: 1000;
+    }
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@-webkit-keyframes dash-check {
+    0% {
+        stroke-dashoffset: -100;
+    }
+    100% {
+        stroke-dashoffset: 900;
+    }
+}
+
+@keyframes dash-check {
+    0% {
+        stroke-dashoffset: -100;
+    }
+    100% {
+        stroke-dashoffset: 900;
+    }
+}
+  

@@ -100,13 +100,9 @@ function cardClick() {
             if (gameData.openCards.length > 0) {
                 // check to see if it's a matching card
                 if (this.children[0].classList[1] === gameData.openCards[0].children[0].classList[1]) {
-                    // If yes, then add match class and the match animation class
                     addMatchedPair(gameData.openCards[0], this);
                 }
                 else {
-                    // If no, then add bad-match class and bad match animation class
-                    // If it is a bad match use setTimeout with your code for adding the classes to get the red
-                    // background from the CSS we're given to get the user to see it's a bad match
                     toggleSymbol(gameData.openCards[0]);
                     toggleBadMatch(gameData.openCards[0], this);
                     let timeoutId = setTimeout(toggleBadMatch, 1500, gameData.openCards[0], this);
@@ -115,15 +111,13 @@ function cardClick() {
                 gameData.openCards = []
                 // Increment move counter and update it on the page
                 gameData.moves++;
-
                 // Update the moves counter and check the move counter to update the stars
                 // This part must come after gameData.moves is incremented to work appropriately
                 updateMovesCounter();
                 updateStarList();
-
                 // Check to see if we're at 16 matched cards (so add 2 every time there's a successful match) and if we're at 16 end the game
                 if (gameData.matchedCards === 16) {
-                    // show modal for the end of the game
+                    displayWinModal();
                 }
             }
             else {
@@ -141,6 +135,13 @@ function cardClick() {
 
 function restartGameEvent() {
     $('.score-panel').on('click', '.fa-repeat', function () {
+        restartGame();
+    });
+
+    $('#win-modal').on('click', '#modal-button', function() {
+        let modal = document.getElementById('win-modal');
+        // Hide the modal pop-up
+        $(modal).toggleClass('modal-hide modal-show');
         restartGame();
     });
 }
@@ -181,7 +182,7 @@ function updateTime() {
         gameData.secondsSpan = document.getElementById('seconds');
     }
     if (gameData.gameStartTime != null) {
-        gameData.totalSeconds = Math.floor((Date.now() - gameData.gameStartTime) / 1000);   
+        gameData.totalSeconds = Math.floor((Date.now() - gameData.gameStartTime) / 1000);
     }
     gameData.secondsSpan.innerHTML = padTimeString(gameData.totalSeconds % 60);
     gameData.minutesSpan.innerHTML = padTimeString(parseInt(gameData.totalSeconds / 60));
@@ -226,6 +227,31 @@ function padTimeString(val) {
     } else {
       return valString;
     }
+}
+
+function displayWinModal() {
+    clearInterval(gameData.intervalId);
+                    
+    // Display time
+    let modalMin = document.getElementById('modal-min');
+    let modalSec = document.getElementById('modal-sec');
+    modalMin.innerHTML = document.getElementById('minutes').innerHTML;
+    modalSec.innerHTML = document.getElementById('seconds').innerHTML;
+    
+    // Display moves and stars
+    let modalMoves = document.getElementById('modal-moves');
+    let modalStars = document.getElementById('modal-stars');
+    modalMoves.innerHTML = gameData.moves;
+    if (gameData.stars === 1) {
+        modalStars.innerHTML = gameData.stars.toString() + " star";    
+    }
+    else {
+        modalStars.innerHTML = gameData.stars.toString() + " stars";
+    }
+    
+    // show modal for the end of the game
+    let modal = document.getElementById('win-modal');
+    $(modal).toggleClass('modal-hide modal-show');
 }
 
 $(document).ready( function() {
